@@ -16,7 +16,6 @@ allLinks.forEach((link) => {
   link.addEventListener("click", function (e) {
     e.preventDefault();
     const href = link.getAttribute("href");
-    console.log(href);
     if (href === "#") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -31,7 +30,23 @@ allLinks.forEach((link) => {
     }
   });
 });
-console.log(allLinks);
+
+//sticky navigation
+const heroSectionEl = document.querySelector(".section-hero");
+const obs = new IntersectionObserver(
+  function (entries) {
+    if (entries[0].isIntersecting === false) {
+      document.body.classList.add("sticky");
+    } else {
+      document.body.classList.remove("sticky");
+    }
+  },
+  {
+    root: null,
+    threshold: 0,
+  }
+);
+obs.observe(heroSectionEl);
 function checkFlexGap() {
   var flex = document.createElement("div");
   flex.style.display = "flex";
@@ -44,8 +59,6 @@ function checkFlexGap() {
   document.body.appendChild(flex);
   var isSupported = flex.scrollHeight === 1;
   flex.parentNode.removeChild(flex);
-  console.log(isSupported);
-
   if (!isSupported) document.body.classList.add("no-flexbox-gap");
 }
 checkFlexGap();
